@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace CPUWindowsFormFramework
 {
     public class WindowsFormsUtility
     {
-        public static void SetListBinding(ComboBox drpdwn, DataTable sourcedt, DataTable targetdt, string tablename)
+        public static void SetListBinding(ComboBox drpdwn, DataTable sourcedt, DataTable? targetdt, string tablename)
         {
             drpdwn.DataSource = sourcedt;
             drpdwn.ValueMember = tablename + "Id";
             drpdwn.DisplayMember = drpdwn.Name.Substring(6);
-            drpdwn.DataBindings.Add("SelectedValue", targetdt, drpdwn.ValueMember, false, DataSourceUpdateMode.OnPropertyChanged);
-            Debug.Print(drpdwn.DisplayMember);
-
+            if(targetdt != null)
+            {
+                drpdwn.DataBindings.Add("SelectedValue", targetdt, drpdwn.ValueMember, false, DataSourceUpdateMode.OnPropertyChanged);
+            }
         }
         public static void SetControlBinding(Control ctrl, BindingSource bindsource)
         { 
@@ -84,8 +78,18 @@ namespace CPUWindowsFormFramework
                     id = (int)grid.Rows[rowindex].Cells[columnname].Value;
                 }
             }
-            //id = (int)gPresident.Rows[rowindex].Cells["PresidentId"].Value;
             return id;
+        }
+
+        public static int GetIdFromComboBox(ComboBox drpdwn)
+        {
+            int value = 0;
+            if(drpdwn.SelectedValue != null && drpdwn.SelectedValue is int)
+            {
+                value = (int)drpdwn.SelectedValue;
+            }
+            return value;
+
         }
 
         public static void AddComboBoxToGrid(DataGridView grid,  DataTable datasource, string tablename, string displaymemeber)
