@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.DirectoryServices.ActiveDirectory;
 
 namespace CPUWindowsFormFramework
 {
