@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Data.Common;
 using System.DirectoryServices.ActiveDirectory;
 
 namespace CPUWindowsFormFramework
@@ -15,6 +16,7 @@ namespace CPUWindowsFormFramework
                 drpdwn.DataBindings.Add("SelectedValue", targetdt, drpdwn.ValueMember, false, DataSourceUpdateMode.OnPropertyChanged);
             }
         }
+
         public static void SetControlBinding(Control ctrl, BindingSource bindsource)
         { 
             string propertyname = "";
@@ -30,10 +32,14 @@ namespace CPUWindowsFormFramework
                 case "dtp":
                     propertyname = "Value";
                     break;
+                case "chk":
+                    propertyname = "Checked";
+                    break;
             }
             if (propertyname != "" && columnname != "")
             {
                 ctrl.DataBindings.Add(propertyname, bindsource, columnname, true, DataSourceUpdateMode.OnPropertyChanged);
+                
             }
         }
 
